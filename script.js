@@ -36,6 +36,7 @@ document.getElementById('reset').addEventListener('click', ()=> {
 // query button, add event listener, click => reset all gratuities, set active state, set gratuity value
 gratuityBtns.forEach(btn => {
   btn.addEventListener('click', ()=>{
+    customGratuity.value = button.getAttribute('data-value') * 100;
     // reset all gratuities
     resetGratuities();
     btn.classList.add('active');
@@ -82,10 +83,10 @@ function getUserInputs(){
 }
 
 function getTipValue(){
-  const defaultTip = document.getElementsByClassName('active').value;
+  const defaultTip = document.querySelector('.active').getAttribute('data-value');
   console.log('default tip: ', defaultTip)
   let tip = null;
-  if (typeof parseInt(defaultTip) == 'number') {
+  if (!isNaN(parseInt(defaultTip))) {
     console.log(defaultTip, " <== this is the default tip")
     tip = parseInt(defaultTip);
     console.log('Tip ln 86: ', tip) 
@@ -100,7 +101,7 @@ function getTipValue(){
 function validateCustomTip(){
   const checkTip = parseFloat(customGratuity.value)
   console.log('checking custom tip:', typeof checkTip)
-  if(typeof checkTip !== 'number'){
+  if(isNaN(checkTip)){
     throw new Error ('Input a valid number')
   } 
   return true
@@ -116,7 +117,7 @@ function validateNumPeople(){
 
 function validateBillTotal(){
   const billTotal = parseInt(bill.value)
-  if(typeof billTotal !== 'number'){
+  if(isNaN(billTotal)){
     throw new Error(`Your input of moneys can only be a non-zero positive number.`)
   }  
   return true
